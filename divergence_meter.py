@@ -4,11 +4,11 @@ import random
 import time
 import math
 
-# try:
-#     import RPi.GPIO as GPIO
-# except RuntimeError:
-#     print(
-#         "Error importing RPi.GPIO! This is probably because you need superuser privileges. You can achieve this by using 'sudo' to run your script")
+try:
+    import RPi.GPIO as GPIO
+except RuntimeError:
+    print(
+        "Error importing RPi.GPIO! This is probably because you need superuser privileges. You can achieve this by using 'sudo' to run your script")
 from operator import itemgetter
 
 output_channels = [3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 29, 31, 32, 33, 35, 36, 37, 38, 40]
@@ -74,34 +74,34 @@ def weighted_choice(choices):
     assert False, "Shouldn't get here"
 
 
-# def setup_gpio():
-#     GPIO.setmode(GPIO.BOARD)
-#
-#     for i in output_channels:
-#         GPIO.setup(i, GPIO.OUT)
-#
-#
-# def teardown_gpio():
-#     for i in output_channels:
-#         GPIO.output(i, 0)
-#
-#     GPIO.cleanup()
+def setup_gpio():
+    GPIO.setmode(GPIO.BOARD)
+
+    for i in output_channels:
+        GPIO.setup(i, GPIO.OUT)
 
 
-# def set_nixie(index, state):
-#     mapping = state_channel[state]
-#     strobe = nixie_channel[index]
-#
-#     GPIO.output(strobe, 1)
-#
-#     GPIO.output(data_channel[0], mapping & 0x1)
-#     GPIO.output(data_channel[1], mapping & 0x2)
-#     GPIO.output(data_channel[2], mapping & 0x4)
-#     GPIO.output(data_channel[3], mapping & 0x8)
-#     time.sleep(0.001)
-#
-#     GPIO.output(strobe, 0)
-#     time.sleep(0.001)
+def teardown_gpio():
+    for i in output_channels:
+        GPIO.output(i, 0)
+
+    GPIO.cleanup()
+
+
+def set_nixie(index, state):
+    mapping = state_channel[state]
+    strobe = nixie_channel[index]
+
+    GPIO.output(strobe, 1)
+
+    GPIO.output(data_channel[0], mapping & 0x1)
+    GPIO.output(data_channel[1], mapping & 0x2)
+    GPIO.output(data_channel[2], mapping & 0x4)
+    GPIO.output(data_channel[3], mapping & 0x8)
+    time.sleep(0.001)
+
+    GPIO.output(strobe, 0)
+    time.sleep(0.001)
 
 
 def set_nixie(index, state):
@@ -187,14 +187,14 @@ def update_color():
     rv = get_color_state('r')
     gv = get_color_state('g')
     bv = get_color_state('b')
-
+    #
     # print(rv)
     # print(gv)
     # print(bv)
 
-    # GPIO.output(light_channel['r'], rv)
-    # GPIO.output(light_channel['g'], gv)
-    # GPIO.output(light_channel['b'], bv)
+    GPIO.output(light_channel['r'], rv)
+    GPIO.output(light_channel['g'], gv)
+    GPIO.output(light_channel['b'], bv)
 
 
 def get_color_state(color):
@@ -206,7 +206,7 @@ def get_color_state(color):
 def colorflow(counter):
 
     set_color(math.sin(counter+math.pi*1/3),math.sin(counter+math.pi*2/3),math.sin(counter))
-# setup_gpio()
+setup_gpio()
 
 set_color(0, 0.1, 1)
 frame_animation = deque()
