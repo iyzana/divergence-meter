@@ -2,6 +2,7 @@ from collections import deque, namedtuple
 from datetime import datetime
 import random
 import time
+import math
 
 # try:
 #     import RPi.GPIO as GPIO
@@ -182,6 +183,7 @@ def set_color(r, g, b):
 
 
 def update_color():
+
     rv = get_color_state('r')
     gv = get_color_state('g')
     bv = get_color_state('b')
@@ -201,17 +203,22 @@ def get_color_state(color):
     return modulus == 0
 
 
+def colorflow(counter):
+
+    set_color(math.sin(counter+math.pi*1/3),math.sin(counter+math.pi*2/3),math.sin(counter))
 # setup_gpio()
 
 set_color(0, 0.1, 1)
 frame_animation = deque()
-# frame_animation += scramble_single(7, 20)
+frame_animation += scramble_single(0, 20)
 
 while True:
     update_nixies()
     update_color()
+    colorflow(counter)
     for c in config.values():
         c.update()
+
     counter += 1
 
 teardown_gpio()
