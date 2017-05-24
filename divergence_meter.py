@@ -104,11 +104,6 @@ def set_nixie(index, state):
     time.sleep(0.001)
 
 
-def set_nixie(index, state):
-    print(state, end='')
-    time.sleep(0.0001)
-
-
 def set_nixies():
     for i, state in enumerate(nixie_state):
         set_nixie(i, state)
@@ -203,9 +198,12 @@ def get_color_state(color):
     return modulus == 0
 
 
-def colorflow(counter):
+def colorflow():
+    set_color(math.sin(math.radians(counter)+math.pi*1/3),
+              math.sin(math.radians(counter)+math.pi*2/3),
+              math.sin(math.radians(counter)))
 
-    set_color(math.sin(counter+math.pi*1/3),math.sin(counter+math.pi*2/3),math.sin(counter))
+
 setup_gpio()
 
 set_color(0, 0.1, 1)
@@ -213,9 +211,8 @@ frame_animation = deque()
 frame_animation += scramble_single(0, 20)
 
 while True:
-    update_nixies()
-    update_color()
-    colorflow(counter)
+    nixie_state='00000000'
+    colorflow()
     for c in config.values():
         c.update()
 
