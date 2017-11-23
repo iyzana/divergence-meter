@@ -187,19 +187,16 @@ def update_nixies():  # update the nixies according to the shown stuff and the o
 
 
 def animation_from_both_sides():
-    print("=== incoming animation ===")
     for i in range(4):
-        animation_insert(scramble_single(i, 24 - i * 3), offset=i * 3)
-        animation_insert(scramble_single(7 - i, 24 - i * 3), offset=i * 3)
+        animation_insert(scramble_single(i, 12 - i * 3), offset=i * 3)
+        animation_insert(scramble_single(7 - i, 12 - i * 3), offset=i * 3)
     
-    print("=== scramble animation ===")
     for i in range(20):
         animation_append(random_frame())
     
-    print("=== outgoing animation ===")
     for i in range(4):
-        animation_insert(scramble_single(i, i * 3), offset=64)
-        animation_insert(scramble_single(7 - i, i * 3), offset=64)
+        animation_insert(scramble_single(3 - i, i * 3), offset=44)
+        animation_insert(scramble_single(i + 4, i * 3), offset=44)
 
         
 def animation_append(frames):
@@ -214,8 +211,6 @@ def animation_append(frames):
 def animation_insert(frames, offset=0):
     global frames_animation
 
-    print("inserting " + str(frames) + " at offset " + str(offset))
-
     if not isinstance(frames, list):
         frames = [frames]
 
@@ -228,13 +223,8 @@ def animation_insert(frames, offset=0):
 
     for i, frame in enumerate(frames):
         frame_animation = frames_animation[i + offset]
-        print("begin frame " + str(i))
-        print("frame: '" + str(frame) + "'")
-        print("begin anim " + str(i + offset))
-        print("current anim: " + str(frame_animation))
 
         for pos, c in enumerate(frame):
-            print("pos " + str(pos) + ': ' + c)
             if frame[pos] != ' ':
                 frame_animation[pos] = c
 
@@ -251,8 +241,7 @@ def update_color():  # update the gpio output for the leds
     GPIO.output(light_channel['b'], bv)
 
 
-def get_color_state(
-        level):  # calculate if the led should be on or off in this frame for reaching 'level' percent of on time
+def get_color_state(level):  # calculate if the led should be on or off in this frame for reaching 'level' percent of on time
     modulus = int(counter % (1 / level) if level != 0 else 1)
     return modulus == 0
     # return level > 0.5
@@ -300,20 +289,14 @@ test_nixies()
 
 frames_animation = deque()  # create the animation deque
 
-print("=== incoming animation ===")
 for i in range(24):
     animation_append(clear_frame())
 for i in range(8):
     animation_insert(scramble_single(i, 24 - i * 3), offset=i * 3)
 
-print("=== scramble animation ===")
 for i in range(40):
     animation_append(random_frame())
 
-for frame_animation in frames_animation:
-    print(str(frame_animation))
-
-print("=== outgoing animation ===")
 for i in range(8):
     animation_insert(scramble_single(i, i * 3), offset=64)
 
