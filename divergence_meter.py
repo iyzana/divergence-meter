@@ -188,15 +188,15 @@ def update_nixies():  # update the nixies according to the shown stuff and the o
 
 def animation_from_both_sides():
     for i in range(4):
-        animation_insert(scramble_single(i, 12 - i * 3), offset=i * 3)
-        animation_insert(scramble_single(7 - i, 12 - i * 3), offset=i * 3)
+        animation_insert(scramble_single(i, 16 - i * 4), offset=i * 4)
+        animation_insert(scramble_single(7 - i, 16 - i * 4), offset=i * 4)
     
     for i in range(20):
         animation_append(random_frame())
     
     for i in range(4):
-        animation_insert(scramble_single(3 - i, i * 3), offset=44)
-        animation_insert(scramble_single(i + 4, i * 3), offset=44)
+        animation_insert(scramble_single(3 - i, i * 4), offset=36)
+        animation_insert(scramble_single(i + 4, i * 4), offset=36)
 
         
 def animation_append(frames):
