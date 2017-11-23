@@ -186,6 +186,21 @@ def update_nixies():  # update the nixies according to the shown stuff and the o
             set_nixies()
 
 
+def animation_from_both_sides():
+    print("=== incoming animation ===")
+    for i in range(4):
+        animation_insert(scramble_single(i, 24 - i * 3), offset=i * 3)
+        animation_insert(scramble_single(7 - i, 24 - i * 3), offset=i * 3)
+    
+    print("=== scramble animation ===")
+    for i in range(20):
+        animation_append(random_frame())
+    
+    print("=== outgoing animation ===")
+    for i in range(4):
+        animation_insert(scramble_single(i, i * 3), offset=64)
+        animation_insert(scramble_single(7 - i, i * 3), offset=64)
+
 def animation_append(frames):
     global frames_animation
 
@@ -308,18 +323,13 @@ end = 0
 while True:
     time.sleep(max(0, 0.0001 - (end - start)))
     start = time.time()
-    #    if counter % 1000 == 0:
-    #        color['b'] += 0.1
-    #        if color['b'] > 1.0:
-    #            color['b'] = 0.1
-    #        print(color['b'])
     colorflow()
-    # color['r'] = 0
-    # color['g'] = 0
-    # color['b'] = 0.01
 
     for config in configs.values():
         config.update()
+
+    if (len(frames_animation) == 0 && datetime.now().second == 0)
+        animation_from_both_sides()
 
     update_color()
     update_nixies()
