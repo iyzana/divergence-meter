@@ -201,6 +201,7 @@ def animation_from_both_sides():
         animation_insert(scramble_single(i, i * 3), offset=64)
         animation_insert(scramble_single(7 - i, i * 3), offset=64)
 
+        
 def animation_append(frames):
     global frames_animation
 
@@ -328,7 +329,7 @@ while True:
     for config in configs.values():
         config.update()
 
-    if (len(frames_animation) == 0 && datetime.now().second == 0)
+    if len(frames_animation) == 0 and datetime.now().second == 59:
         animation_from_both_sides()
 
     update_color()
