@@ -47,14 +47,14 @@ class Config:  # config class for multiple possible overlay states
         self.duration_min = duration_min
         self.duration_max = duration_max
         self.states = states
-        self.next_change = time.clock() + random.randrange(duration_min, duration_max)
+        self.next_change = time.time() + random.randrange(duration_min, duration_max)
 
     def current_animation(self):  # get the current overlay from this config
         return self.states[self.active].animation()
 
     def update(self):  # change the current overlay state that should be displayed based on constructor parameters
-        if time.clock() > self.next_change:  # check if the state should change
-            self.next_change = time.clock() + random.randrange(self.duration_min,
+        if time.time() > self.next_change:  # check if the state should change
+            self.next_change = time.time() + random.randrange(self.duration_min,
                                                                self.duration_max)  # calculate the next time for a change
             self.active = weighted_choice(list(enumerate(map(itemgetter(0), self.states))))  # calculate the next state
 
